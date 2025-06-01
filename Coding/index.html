@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chrome Style Coding Portfolio</title>
+  <style>
+    /* Reset & base */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+      overflow-x: hidden;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    :root {
+      --bg-light: #f5f5f5;
+      --bg: var(--bg-light);
+      --bg-dark: #202124;
+      --surface-light: #fff;
+      --surface-dark: #303134;
+      --surface: var(--surface-light);
+      --text-light: #202124;
+      --text-dark: #e8eaed;
+      --text: var(--text-light);
+      --accent: #8ab4f8;
+      --shadow-light: rgba(0,0,0,0.1);
+      --shadow-dark: rgba(0,0,0,0.8);
+      --shadow: var(--shadow-light);
+      --border-light: #dadce0;
+      --border-dark: #5f6368;
+      --border: var(--border-light);
+      --tab-bg-light: #f1f3f4;
+      --tab-bg-dark: #3c4043;
+      --tab-bg: var(--tab-bg-light);
+      --tab-active-bg-light: #fff;
+      --tab-active-bg-dark: #202124;
+      --tab-active-bg: var(--tab-active-bg-light);
+    }
+    body[data-theme="dark"] {
+      --bg: var(--bg-dark);
+      --surface: var(--surface-dark);
+      --text: var(--text-dark);
+      --shadow: var(--shadow-dark);
+      --border: var(--border-dark);
+      --tab-bg: var(--tab-bg-dark);
+      --tab-active-bg: var(--tab-active-bg-dark);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--accent);
+      border-radius: 10px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+    
+    /* Browser container */
+    .browser {
+      max-width: 1024px;
+      margin: 1.5rem auto 3rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 15px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      background-color: var(--surface);
+      height: 90vh;
+      overflow: hidden;
+      user-select: none;
+    }
+    /* Top bar */
+    .top-bar {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      background-color: var(--tab-bg);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      flex-shrink: 0;
+      -webkit-app-region: drag;
+    }
+
+    /* Browser buttons - left */
+    .window-controls-left {
+      display: flex;
+      gap: 8px;
+      padding-left: 4px;
+      margin-right: 8px;
+      -webkit-app-region: no-drag;
+    }
+    .window-btn {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.15) inset;
+      transition: background-color 0.2s;
+      position: relative;
+    }
+    .window-btn.close {
+      background: #fc615d;
+    }
+    .window-btn.close:hover {
+      background: #ff3b30;
+    }
+    .window-btn.minimize {
+      background: #fdbc40;
+    }
+    .window-btn.minimize:hover {
+      background: #ffbd2e;
+    }
+    .window-btn.maximize {
+      background: #34c84a;
+    }
+    .window-btn.maximize:hover {
+      background: #32d74b;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-grow: 1;
+      -webkit-app-region: no-drag;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: transparent transparent;
+    }
+    .tabs::-webkit-scrollbar {
+      height: 6px;
+    }
+    .tabs::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 10px;
+    }
+    .tabs::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .tab {
+      flex-shrink: 0;
+      background: var(--tab-bg);
+      border-radius: 8px 8px 0 0;
+      padding: 8px 18px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+      box-shadow: inset 0 -2px 0 transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      user-select: none;
+      max-width: 160px;
+      white-space: nowrap;
+      position: relative;
+      transition:
+        background-color 0.3s,
+        box-shadow 0.3s,
+        color 0.3s;
+    }
+    .tab:hover {
+      background-color: var(--surface);
+      box-shadow: inset 0 -2px 0 var(--accent);
+      color: var(--accent);
+    }
+    .tab.active {
+      background-color: var(--tab-active-bg);
+      box-shadow: inset 0 -4px 0 var(--accent);
+      color: var(--accent);
+      cursor: default;
+    }
+    /* Close icon in tabs */
+    .tab .close-tab {
+      margin-left: 10px;
+      width: 14px;
+      height: 14px;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tab .close-tab:hover {
+      opacity: 1;
+      background-color: rgba(0,0,0,0.1);
+    }
+    .close-tab svg {
+      fill: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 2;
+    }
+    /* Address bar */
+    .address-bar {
+      min-width: 220px;
+      max-width: 350px;
+      margin-left: 12px;
+      flex-shrink: 0;
+      position: relative;
+      display: flex;
+      align-items: center;
+      background-color: var(--surface);
+      border-radius: 8px;
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .address-bar:focus-within {
+      box-shadow: 0 0 6px var(--accent);
+      border-color: var(--accent);
+    }
+    .address-bar input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 12px;
+      border-radius: 8px;
+      user-select: text;
+      font-family: 'Inter', sans-serif;
+      cursor: text;
+    }
+    .address-bar input::selection {
+      background: var(--accent);
+      color: var(--surface);
+    }
+    .address-bar .favicon {
+      width: 16px;
+      height: 16px;
+      margin-left: 8px;
+      margin-right: 4px;
+      pointer-events: none;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    /* Buttons on right */
+    .window-controls-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-left: 12px;
+      -webkit-app-region: no-drag;
+    }
+    /* Dark mode toggle */
+    .incognito-toggle {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text);
+      user-select: none;
+      transition: color 0.3s;
+      border-radius: 6px;
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+    }
+    .incognito-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    /* Incognito icon */
+    .incognito-toggle .icon {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      stroke: currentColor;
+      stroke-width: 0;
+    }
+
+    /* Content area */
+    .content {
+      flex-grow: 1;
+      overflow-y: auto;
+      background-color: var(--bg);
+      padding: 24px 40px 40px;
+      color: var(--text);
+      border-radius: 0 0 12px 12px;
+      position: relative;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* Sections */
+    .section {
+      display: none;
+      animation: fadeInSection 0.35s ease forwards;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .section.active {
+      display: block;
+    }
+    @keyframes fadeInSection {
+      from {opacity:0; transform: translateY(8px);}
+      to {opacity:1; transform: translateY(0);}
+    }
+
+    /* Home Section */
+    #home {
+      text-align: center;
+      padding-top: 20px;
+    }
+    #home h1 {
+      font-weight: 700;
+      font-size: 3rem;
+      margin: 0 0 10px;
+      color: var(--text);
+    }
+    #home p {
+      font-size: 1.3rem;
+      margin: 0 0 30px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+    #home .avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--accent);
+      box-shadow: 0 4px 10px var(--shadow);
+      margin: 0 auto 30px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    #home .avatar:hover {
+      transform: scale(1.05);
+    }
+    /* Quick links styled as Chrome New Tab icons */
+    #home .quick-links {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    #home .quick-links a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text);
+      width: 90px;
+      user-select: none;
+      transition: color 0.3s;
+    }
+    #home .quick-links a:hover {
+      color: var(--accent);
+    }
+    #home .quick-links a .icon {
+      font-size: 36px;
+      margin-bottom: 6px;
+    }
+    /* About & Contact */
+    #about {
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #about h2 {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 1.4rem;
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 6px;
+    }
+    #about .bio {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+    #about .skills {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .skill-chip {
+      background-color: var(--tab-bg);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+      cursor: default;
+    }
+    .skill-chip:hover {
+      background-color: var(--accent);
+      color: var(--surface);
+    }
+    /* Contact form */
+    #about form {
+      background-color: var(--tab-bg);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+    }
+    #about form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    #about form input, #about form textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      margin-bottom: 16px;
+      background-color: var(--surface);
+      color: var(--text);
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color 0.3s;
+      font-family: 'Inter', sans-serif;
+    }
+    #about form input:focus, #about form textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 6px var(--accent);
+      background-color: var(--surface);
+    }
+    #about form button {
+      background-color: var(--accent);
+      color: var(--surface);
+      border: none;
+      padding: 12px 20px;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      user-select: none;
+    }
+    #about form button:hover {
+      background-color: #669def;
+    }
+    #contact-success {
+      color: var(--accent);
+      font-weight: 600;
+      display: none;
+      margin-top: 10px;
+    }
+    /* Project cards general */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 24px;
+    }
+    .project-card {
+      background-color: var(--tab-bg);
+      border-radius: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s;
+      cursor: default;
+    }
+    .project-card:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .project-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+      font-size: 1.2rem;
+      color: var(--accent);
+    }
+    .project-desc {
+      flex-grow: 1;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .tech-item {
+      background-color: var(--bg);
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      user-select: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+    .tech-item:hover {
+      background-color: var(--accent);
+      color: var(--surface);
+    }
+    .project-links {
+      margin-top: auto;
+    }
+    .project-link {
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-right: 16px;
+      user-select: none;
+      transition: color 0.3s;
+    }
+    .project-link:hover {
+      color: #669def;
+    }
+    /* Collapsible sections (Full Stack projects) */
+    details {
+      border-radius: 14px;
+      background-color: var(--tab-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 14px 20px;
+      margin-bottom: 18px;
+      cursor: pointer;
+      user-select: none;
+      transition: box-shadow 0.3s;
+    }
+    details:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    summary {
+      font-weight: 700;
+      font-size: 1.1rem;
+      outline: none;
+      cursor: pointer;
+    }
+    summary::-webkit-details-marker {
+      display: none;
+    }
+    /* Inside collapsed content */
+    details > .project-desc {
+      font-weight: 400;
+      font-size: 0.95rem;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      color: var(--text);
+    }
+
+    /* AI/ML Projects */
+    #ai-ml .projects-grid {
+      padding-top: 8px;
+    }
+
+    /* Full Stack Projects */
+    #full-stack {
+      max-width: 850px;
+    }
+
+    /* Tech Toolbox (Cloud + Cybersecurity + Other) */
+    #extras {
+      max-width: 850px;
+    }
+    /* Icon Navigation inside Extras */
+    .extras-nav {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .extras-nav button {
+      background-color: var(--tab-bg);
+      border: none;
+      border-radius: 14px;
+      padding: 12px 25px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--accent);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 160px;
+      justify-content: center;
+    }
+    .extras-nav button:hover, .extras-nav button.active {
+      background-color: var(--accent);
+      color: var(--surface);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.26);
+    }
+    .extras-nav button svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+    .extra-section {
+      display: none;
+      animation: fadeInSection 0.35s ease forwards;
+    }
+    .extra-section.active {
+      display: block;
+    }
+
+    /* --- Full Stack Section Enhancements (from coder/styles.css) --- */
+
+    /* Project Tabs (for switching between projects) */
+    .project-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border, #dadce0);
+        padding-bottom: 10px;
+    }
+    .project-tab {
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: var(--tab-bg, #f1f3f4);
+        color: var(--text-muted, #5f6368);
+        font-weight: 600;
+        transition: background 0.2s, color 0.2s;
+    }
+    .project-tab.active {
+        background-color: var(--accent, #8ab4f8);
+        color: #fff;
+    }
+
+    /* Project Content (show/hide per tab) */
+    .project-content {
+        display: none;
+    }
+    .project-content.active {
+        display: block;
+    }
+
+    /* Project Details Layout */
+    .project-details {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+    @media (max-width: 900px) {
+        .project-details {
+            flex-direction: column;
+            gap: 24px;
+        }
+    }
+
+    /* Project Screenshots (side panel) */
+    .project-screenshots {
+        flex: 1;
+        min-width: 280px;
+    }
+    .screenshot {
+        display: none;
+    }
+    .screenshot.active {
+        display: block;
+    }
+
+    /* Screenshot Navigation */
+    .screenshot-nav {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    .screen-nav {
+        padding: 5px 10px;
+        background-color: var(--tab-bg, #f1f3f4);
+        border: none;
+        border-radius: 4px;
+        color: var(--text-muted, #5f6368);
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.2s, color 0.2s;
+    }
+    .screen-nav.active {
+        background-color: var(--accent, #8ab4f8);
+        color: #fff;
+    }
+
+    /* Project Description Panel */
+    .project-description {
+        flex: 2;
+        min-width: 260px;
+    }
+
+    /* Tech Stack Icons (optional, for visual flair) */
+    .tech-stack {
+        margin: 20px 0;
+    }
+    .tech-icons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+    }
+    .tech-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 60px;
+    }
+    .tech-icon i {
+        font-size: 24px;
+        margin-bottom: 5px;
+        color: var(--accent, #8ab4f8);
+    }
+    .tech-icon span {
+        font-size: 12px;
+        text-align: center;
+        color: var(--text-muted, #5f6368);
+    }
+
+    /* Project Features List */
+    .project-features ul {
+        list-style-position: inside;
+        margin-top: 10px;
+        padding-left: 0;
+    }
+    .project-features li {
+        margin-bottom: 8px;
+        color: var(--text-muted, #5f6368);
+    }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      .browser {
+        height: 100vh;
+        margin: 0 auto;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .top-bar {
+        height: 56px;
+        padding: 0 10px;
+        overflow-x: auto;
+      }
+      .tab {
+        padding: 8px 12px;
+        font-size: 13px;
+        max-width: 110px;
+      }
+      .address-bar {
+        max-width: 180px;
+        min-width: 120px;
+      }
+      .content {
+        padding: 1rem 1.25rem 1.25rem;
+        font-size: 15px;
+      }
+      #home h1 {
+        font-size: 2.4rem;
+      }
+      #home p {
+        font-size: 1.1rem;
+      }
+      #home .avatar {
+        width: 110px;
+        height: 110px;
+      }
+      #about, #full-stack, #extras, #ai-ml {
+        max-width: 100%;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .extras-nav {
+        justify-content: space-evenly;
+        gap: 12px;
+      }
+      .extras-nav button {
+        padding: 8px 15px;
+        font-size: 0.95rem;
+        min-width: 120px;
+      }
+    }
+
+    /* Add or update this CSS in your <style> section */
+
+    #extras .extra-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 10px;
+      align-items: stretch;
+    }
+
+    #extras .project-card {
+      margin: 0;
+      width: 100%;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    /* New styles for Tech Toolbox section */
+    #extras h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+    #extras h2 i {
+      font-size: 1.2rem;
+      position: absolute;
+      left: -30px;
+      top: 0;
+      color: var(--accent);
+    }
+    .toolbox-categories {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .category-card {
+      background-color: var(--tab-bg);
+      border-radius: 14px;
+      padding: 20px 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border: 2px solid transparent;
+      min-width: 180px;
+    }
+    .category-card.active,
+    .category-card:hover {
+      background-color: var(--accent);
+      color: var(--surface);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+      border-color: var(--accent);
+    }
+    .category-icon {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    .category-content {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 10px;
+      align-items: stretch;
+    }
+    .category-content.active {
+      display: grid;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("V0LGNNJh6ImXC-Lvs"); // Replace with your EmailJS user ID (public key)
+    })();
+  </script>
+</head>
+<body>
+  <div class="browser" role="main" aria-label="Chrome style coding portfolio website">
+
+    <div class="top-bar" role="tablist" aria-label="Browser tabs">
+      <div class="window-controls-left" aria-hidden="true">
+        <div class="window-btn close" title="Close"></div>
+        <div class="window-btn minimize" title="Minimize"></div>
+        <div class="window-btn maximize" title="Maximize"></div>
+      </div>
+
+      <div class="tabs" id="tabs">
+        <div class="tab active" role="tab" aria-selected="true" tabindex="0" data-tab="home" id="tab-home" aria-controls="section-home" draggable="true" title="Home">Home</div>
+        <div class="tab" role="tab" aria-selected="false" tabindex="-1" data-tab="about" id="tab-about" aria-controls="section-about" draggable="true" title="About & Contact">About & Contact</div>
+        <div class="tab" role="tab" aria-selected="false" tabindex="-1" data-tab="ai-ml" id="tab-ai-ml" aria-controls="section-ai-ml" draggable="true" title="AI / ML Projects">AI / ML Projects</div>
+        <div class="tab" role="tab" aria-selected="false" tabindex="-1" data-tab="full-stack" id="tab-full-stack" aria-controls="section-full-stack" draggable="true" title="Full Stack Projects">Full Stack Projects</div>
+        <div class="tab" role="tab" aria-selected="false" tabindex="-1" data-tab="extras" id="tab-extras" aria-controls="section-extras" draggable="true" title="Extras">Extras</div>
+      </div>
+
+      <div class="address-bar" role="search" aria-label="Address bar">
+        <img src="https://www.google.com/s2/favicons?domain=portfolio" alt="" class="favicon" aria-hidden="true" />
+        <input type="text" id="address" tabindex="0" aria-live="polite" readonly aria-label="Address" value="portfolio://home" spellcheck="false" />
+      </div>
+
+      <div class="window-controls-right" aria-hidden="true">
+        <button class="incognito-toggle" id="incognito-toggle" aria-pressed="false" title="Toggle incognito (dark) mode" aria-label="Toggle incognito mode">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.5 12a5.5 5.5 0 0 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            <line x1="12" y1="21" x2="12" y2="17" />
+          </svg>
+          Incognito
+        </button>
+      </div>
+    </div>
+
+    <div class="content" tabindex="0">
+
+      <section class="section active" id="home" role="tabpanel" aria-labelledby="tab-home">
+        <img class="avatar" src="assets\img.jpg" alt="Profile Avatar" />
+        <h1>Suryansh Mishra</h1>
+        <p>Welcome to my Browser</p>
+        <div class="quick-links" aria-label="Quick Links">
+          <a href="https://github.com/smirk-dev" target="_blank" rel="noopener" aria-label="GitHub">
+            <span class="icon" aria-hidden="true">🐙</span>
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/connectwithsuryanshmishra" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <span class="icon" aria-hidden="true">🔗</span>
+            LinkedIn
+          </a>
+          <a href="mailto:suryansh.mishra.sm6@gmail.com" aria-label="Email">
+            <span class="icon" aria-hidden="true">✉️</span>
+            Email
+          </a>
+          <a href="assets/resume.pdf" aria-label="Resume">
+            <span class="icon" aria-hidden="true">📑</span>
+            Resume
+          </a>
+        </div>
+      </section>
+
+      <section class="section" id="about" role="tabpanel" aria-labelledby="tab-about">
+        <h2>About Me</h2>
+        <div class="bio" style="font-size:1.08rem; line-height:1.7;">
+      <p>
+        Hi! I’m a passionate and future-ready Computer Science Engineering undergraduate, specializing in Artificial Intelligence and Machine Learning at UPES, Dehradun, with a minor degree in AI from IIT Ropar. With a strong foundation in core programming and modern frameworks, I strive to build intelligent systems that solve real-world problems and elevate user experience through thoughtful design and robust logic.
+      </p>
+      <p>
+        <strong>My technical journey spans across languages like Python, JavaScript, C, C++, HTML, CSS, and SQL, and I'm proficient with frameworks like Flask, Django, React, and Bootstrap. I’ve built a variety of impactful and scalable projects, including:</strong>
+      </p>
+      <ul style="margin-top:0.5em; margin-bottom:0.5em;">
+        <li>AI Image Generator – A generative AI tool that transforms text prompts into creative, high-resolution images.</li>
+        <li>Stock Price Predictor – A machine learning model that forecasts market trends using historical data and regression algorithms.</li>
+        <li>Pinterest Clone – A sleek, responsive image-sharing platform with user authentication, dynamic feeds, and saving functionality.</li>
+        <li>Spotify-Styled Music Organizer – A beautiful and functional music manager that lets users organize, play, and discover tracks effortlessly.</li>
+        <li>System File Organizer – A productivity tool that automatically sorts system files by type, size, and date using smart directory structuring.</li>
+        <li>Full Stack Web Projects – Including dashboards, portfolio sites, and web apps with robust frontend-backend integration and real-time interactivity.</li>
+      </ul>
+      <p>
+        I currently serve as the Class Representative for my batch (Batch 66, 2024–25), where I coordinate academic and administrative tasks while honing my leadership, communication, and time management skills. I’m also an active member of the UPES CSI Chapter, collaborating with peers on tech events, workshops, and community-driven initiatives.
+      </p>
+      <p>
+        Outside the tech sphere, I’m an artist and portrait illustrator, working freelance on custom realistic sketches. This creative side helps me merge aesthetics with functionality in everything I design—be it a line of code or a canvas stroke.
+      </p>
+      <p>
+        Having competed at state, national, and international levels through various school and inter-institutional programs, I believe in challenging boundaries and staying committed to growth. My life goals are ambitious: to live freely, explore the world, build meaningful products, and achieve financial independence—all while staying true to my values and vision.
+      </p>
+    </div>
+        <h3>Skills</h3>
+        <div class="skills">
+          <!-- Programming Languages -->
+          <strong style="grid-column: 1 / -1;">Programming Languages</strong>
+          <span class="skill-chip" title="C">C</span>
+          <span class="skill-chip" title="C++">C++</span>
+          <span class="skill-chip" title="JavaScript">JavaScript</span>
+          <span class="skill-chip" title="Python">Python</span>
+          
+          <!-- Web Technologies -->
+          <strong style="grid-column: 1 / -1;">Web Technologies</strong>
+          <span class="skill-chip" title="HTML">HTML</span>
+          <span class="skill-chip" title="CSS">CSS</span>
+          <span class="skill-chip" title="React">React</span>
+          <span class="skill-chip" title="Tailwind CSS">Tailwind</span>
+          
+          <!-- Backend & Databases -->
+          <strong style="grid-column: 1 / -1;">Backend & Databases</strong>
+          <span class="skill-chip" title="Node.js">Node.js</span>
+          <span class="skill-chip" title="Express">Express</span>
+          <span class="skill-chip" title="MongoDB">MongoDB</span>
+          <span class="skill-chip" title="PostgreSQL">PostgreSQL</span>
+          
+          <!-- Cloud & DevOps -->
+          <strong style="grid-column: 1 / -1;">Cloud & DevOps</strong>
+          <span class="skill-chip" title="AWS">AWS</span>
+          <span class="skill-chip" title="Docker">Docker</span>
+          <span class="skill-chip" title="Kubernetes">Kubernetes</span>
+          
+          <!-- AI/ML -->
+          <strong style="grid-column: 1 / -1;">AI / ML</strong>
+          <span class="skill-chip" title="TensorFlow">TensorFlow</span>
+          <span class="skill-chip" title="Keras">Keras</span>
+          
+          <!-- OS & Security -->
+          <strong style="grid-column: 1 / -1;">OS & Security</strong>
+          <span class="skill-chip" title="Linux">Linux</span>
+          <span class="skill-chip" title="Ubuntu Linux">Ubuntu Linux</span>
+          <span class="skill-chip" title="Kali Linux">Kali Linux</span>
+          <span class="skill-chip" title="Cybersecurity">Cybersecurity</span>
+        </div>
+        <h3>Contact Me</h3>
+        <form id="contact-form" aria-label="Contact form">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name" />
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Your email" required autocomplete="email" />
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Your message" required></textarea>
+          <button type="submit">Send</button>
+          <p role="alert" id="contact-success">Thank you for your message! I'll get back to you soon.</p>
+        </form>
+      </section>
+
+      <section class="section" id="ai-ml" role="tabpanel" aria-labelledby="tab-ai-ml">
+        <h2>AI &amp; ML Projects</h2>
+        <div class="projects-grid" aria-live="polite">
+          <article class="project-card" tabindex="0" aria-label="Sentiment Analyzer Project">
+            <div class="project-title">Sentiment Analyzer</div>
+            <div class="project-desc">A natural language processing tool to analyze sentiment in user reviews and social media posts.</div>
+            <div class="tech-stack" aria-label="Technologies: Python, TensorFlow, Flask">
+              <span class="tech-item" title="Python">🐍 Python</span>
+              <span class="tech-item" title="TensorFlow">🤖 TensorFlow</span>
+              <span class="tech-item" title="Flask">🌐 Flask</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/example/sentiment-analyzer" target="_blank" rel="noopener" class="project-link">Code</a>
+              <a href="#" class="project-link" aria-disabled="true" tabindex="-1">Live Demo</a>
+            </div>
+          </article>
+
+          <article class="project-card" tabindex="0" aria-label="Image Classifier Project">
+            <div class="project-title">Image Classifier</div>
+            <div class="project-desc">Convolutional Neural Network for classifying images from multiple categories with high accuracy.</div>
+            <div class="tech-stack" aria-label="Technologies: Python, Keras, AWS S3">
+              <span class="tech-item" title="Python">🐍 Python</span>
+              <span class="tech-item" title="Keras">🧠 Keras</span>
+              <span class="tech-item" title="AWS">☁️ AWS</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/example/image-classifier" target="_blank" rel="noopener" class="project-link">Code</a>
+              <a href="#" class="project-link" aria-disabled="true" tabindex="-1">Live Demo</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="full-stack" role="tabpanel" aria-labelledby="tab-full-stack">
+        <h2>Full Stack Projects</h2>
+        <div class="projects-grid" aria-live="polite">
+          <article class="project-card" tabindex="0" aria-label="Portfolio Website Project">
+            <div class="project-title">Portfolio Website</div>
+            <div class="project-desc">
+              A personal portfolio website built with React, Tailwind CSS, and Node.js backend API. Features a responsive design and contact form.
+            </div>
+            <div class="tech-stack" aria-label="Technologies: React, Tailwind CSS, Node.js, Express, MongoDB">
+              <span class="tech-item" title="React">⚛︎ React</span>
+              <span class="tech-item" title="Tailwind CSS">🎨 Tailwind</span>
+              <span class="tech-item" title="Node.js">🟢 Node.js</span>
+              <span class="tech-item" title="Express">🚂 Express</span>
+              <span class="tech-item" title="MongoDB">🍃 MongoDB</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/example/portfolio-website" target="_blank" rel="noopener" class="project-link">Code</a>
+              <a href="#" class="project-link" aria-disabled="true" tabindex="-1">Live Demo</a>
+            </div>
+          </article>
+          <article class="project-card" tabindex="0" aria-label="E-commerce Platform Project">
+            <div class="project-title">E-commerce Platform</div>
+            <div class="project-desc">
+              A scalable e-commerce platform with user authentication, product browsing, and payment gateway integration.
+            </div>
+            <div class="tech-stack" aria-label="Technologies: Vue.js, Vuex, Node.js, Express, PostgreSQL">
+              <span class="tech-item" title="Vue.js">🖖 Vue.js</span>
+              <span class="tech-item" title="Vuex">📦 Vuex</span>
+              <span class="tech-item" title="Node.js">🟢 Node.js</span>
+              <span class="tech-item" title="Express">🚂 Express</span>
+              <span class="tech-item" title="PostgreSQL">🐘 PostgreSQL</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/example/e-commerce-platform" target="_blank" rel="noopener" class="project-link">Code</a>
+              <a href="#" class="project-link" aria-disabled="true" tabindex="-1">Live Demo</a>
+            </div>
+          </article>
+          <article class="project-card" tabindex="0" aria-label="Blog CMS Project">
+            <div class="project-title">Blog CMS</div>
+            <div class="project-desc">
+              Custom content management system for blogging with markdown support, tagging and SEO optimisation.
+            </div>
+            <div class="tech-stack" aria-label="Technologies: Django, React, GraphQL">
+              <span class="tech-item" title="Django">🌐 Django</span>
+              <span class="tech-item" title="React">⚛︎ React</span>
+              <span class="tech-item" title="GraphQL">🔮 GraphQL</span>
+            </div>
+            <div class="project-links">
+              <a href="https://github.com/example/blog-cms" target="_blank" rel="noopener" class="project-link">Code</a>
+              <a href="#" class="project-link" aria-disabled="true" tabindex="-1">Live Demo</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="extras" role="tabpanel" aria-labelledby="tab-extras">
+  <h2><i class="fas fa-toolbox"></i> Tech Toolbox</h2>
+  <div class="toolbox-categories">
+    <div class="category-card active" data-category="cloud">
+      <div class="category-icon"><i class="fas fa-cloud"></i></div>
+      <h3>Cloud & DevOps</h3>
+    </div>
+    <div class="category-card" data-category="cyber">
+      <div class="category-icon"><i class="fas fa-shield-alt"></i></div>
+      <h3>Cybersecurity</h3>
+    </div>
+    <div class="category-card" data-category="other">
+      <div class="category-icon"><i class="fas fa-cogs"></i></div>
+      <h3>Other Projects</h3>
+    </div>
+  </div>
+
+  <div class="category-content active" id="cloud-content">
+    <!-- Cloud Projects -->
+    <article class="project-card">
+      <div class="project-title">AWS Serverless App</div>
+      <div class="project-desc">Deployed highly scalable serverless app using AWS Lambda, API Gateway, and DynamoDB.</div>
+      <div class="tech-stack">
+        <span class="tech-item">☁️ Lambda</span>
+        <span class="tech-item">🛣️ API Gateway</span>
+        <span class="tech-item">🗃️ DynamoDB</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/example/aws-serverless-app" target="_blank" class="project-link">Code</a>
+      </div>
+    </article>
+    <article class="project-card">
+      <div class="project-title">GCP Data Pipeline</div>
+      <div class="project-desc">Cloud data ingestion and ETL pipeline built with Google Cloud Platform tools including BigQuery and Cloud Functions.</div>
+      <div class="tech-stack">
+        <span class="tech-item">☁️ GCP</span>
+        <span class="tech-item">📊 BigQuery</span>
+        <span class="tech-item">⚙️ Cloud Functions</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/example/gcp-data-pipeline" target="_blank" class="project-link">Code</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="category-content" id="cyber-content">
+    <!-- Cybersecurity Projects -->
+    <article class="project-card">
+      <div class="project-title">CTF Writeups</div>
+      <div class="project-desc">Detailed writeups on Capture The Flag challenges focusing on reverse engineering, web security, and cryptography.</div>
+      <div class="tech-stack">
+        <span class="tech-item">🐍 Python</span>
+        <span class="tech-item">🛠️ Ghidra</span>
+        <span class="tech-item">🕵️‍♂️ Burp</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/example/ctf-writeups" target="_blank" class="project-link">Code</a>
+      </div>
+    </article>
+    <article class="project-card">
+      <div class="project-title">Security Tools</div>
+      <div class="project-desc">Open source utilities to aid in network scanning, port monitoring, and vulnerability assessment.</div>
+      <div class="tech-stack">
+        <span class="tech-item">🐹 Go</span>
+        <span class="tech-item">🐚 Bash</span>
+        <span class="tech-item">🐍 Python</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/example/security-tools" target="_blank" class="project-link">Code</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="category-content" id="other-content">
+    <!-- Other Projects -->
+    <article class="project-card">
+      <div class="project-title">Personal Blog</div>
+      <div class="project-desc">A minimalistic markdown-powered blog platform to share thoughts and tutorials.</div>
+      <div class="tech-stack">
+        <span class="tech-item">📝 Hugo</span>
+        <span class="tech-item">🔗 Netlify</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/example/blog-platform" target="_blank" class="project-link">Code</a>
+      </div>
+    </article>
+    <article class="project-card">
+      <div class="project-title">Dino Game Clone</div>
+      <div class="project-desc">A fun recreation of the classic Chrome dinosaur game using vanilla JS and Canvas API.</div>
+      <div class="tech-stack">
+        <span class="tech-item">JS</span>
+        <span class="tech-item">🎨 Canvas</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/example/dino-game-clone" target="_blank" class="project-link">Code</a>
+        <a href="#" class="project-link" aria-disabled="true" tabindex="-1">Play</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+    </div>
+
+  </div>
+
+<script>
+  (() => {
+    const tabsContainer = document.getElementById('tabs');
+    const tabs = tabsContainer.querySelectorAll('.tab');
+    const sections = document.querySelectorAll('.section');
+    const addressInput = document.getElementById('address');
+    const incognitoToggle = document.getElementById('incognito-toggle');
+
+    // --- Full Stack Project Tabs Logic ---
+    const fsTabs = document.querySelectorAll('.project-tab');
+    const fsPanels = document.querySelectorAll('.project-content');
+
+    // Save active tab index in localStorage key
+    const STORAGE_KEY = 'portfolio-active-tab';
+    const THEME_KEY = 'portfolio-theme';
+
+    // Update address bar favicon base url
+    function getFaviconURL(tab) {
+      return 'https://www.google.com/s2/favicons?domain=portfolio';
+    }
+
+    // Activate one tab by data-tab value
+    function activateTab(tabName, focusTab = true) {
+      tabs.forEach(tab => {
+        let selected = tab.dataset.tab === tabName;
+        tab.classList.toggle('active', selected);
+        tab.setAttribute('aria-selected', selected);
+        tab.tabIndex = selected ? 0 : -1;
+      });
+
+      sections.forEach(section => {
+        section.classList.toggle('active', section.id === tabName);
+      });
+
+      addressInput.value = `portfolio://${tabName}`;
+      localStorage.setItem(STORAGE_KEY, tabName);
+
+      if (focusTab) {
+        let selectedTab = document.querySelector(`.tab[data-tab="${tabName}"]`);
+        if (selectedTab) selectedTab.focus();
+      }
+      document.querySelector('.content').scrollTop = 0;
+    }
+
+    // Keyboard navigation for tabs
+    function onTabKeyDown(e) {
+      const activeTab = document.activeElement;
+      if (!activeTab.classList.contains('tab')) return;
+      if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) {
+        e.preventDefault();
+        let currentIndex = Array.from(tabs).indexOf(activeTab);
+        let nextIndex = currentIndex;
+        if (e.key === 'ArrowLeft') nextIndex = currentIndex === 0 ? tabs.length - 1 : currentIndex - 1;
+        if (e.key === 'ArrowRight') nextIndex = currentIndex === tabs.length - 1 ? 0 : currentIndex + 1;
+        if (e.key === 'Home') nextIndex = 0;
+        if (e.key === 'End') nextIndex = tabs.length - 1;
+        const newTab = tabs[nextIndex];
+        activateTab(newTab.dataset.tab);
+      }
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activateTab(activeTab.dataset.tab);
+      }
+    }
+
+    // Handle tab click activation
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => activateTab(tab.dataset.tab));
+      tab.addEventListener('keydown', onTabKeyDown);
+    });
+
+    // Drag and drop tabs reorder
+    let draggedTab = null;
+    tabs.forEach(tab => {
+      tab.addEventListener('dragstart', e => {
+        draggedTab = tab;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', '');
+        tab.style.opacity = '0.5';
+      });
+      tab.addEventListener('dragend', () => {
+        draggedTab.style.opacity = '1';
+        draggedTab = null;
+        let order = Array.from(tabsContainer.children).map(t => t.dataset.tab);
+        localStorage.setItem('portfolio-tab-order', JSON.stringify(order));
+      });
+      tab.addEventListener('dragover', e => {
+        e.preventDefault();
+        if (draggedTab === null || draggedTab === tab) return;
+        const bounding = tab.getBoundingClientRect();
+        const offset = e.clientX - bounding.left;
+        const midPoint = bounding.width / 2;
+        if (offset > midPoint) {
+          tab.after(draggedTab);
+        } else {
+          tab.before(draggedTab);
+        }
+      });
+    });
+
+    // Load saved tab order
+    function loadTabOrder() {
+      let savedOrder = JSON.parse(localStorage.getItem('portfolio-tab-order'));
+      if (!savedOrder) return;
+      savedOrder.forEach(tabName => {
+        let tab = Array.from(tabsContainer.children).find(t => t.dataset.tab === tabName);
+        if (tab) {
+          tabsContainer.appendChild(tab);
+        }
+      });
+    }
+
+    // Dark / Light theme toggle
+    function setTheme(dark) {
+      if (dark) {
+        document.body.setAttribute('data-theme', 'dark');
+        incognitoToggle.setAttribute('aria-pressed', 'true');
+        incognitoToggle.textContent = 'Incognito';
+        localStorage.setItem(THEME_KEY, 'dark');
+      } else {
+        document.body.removeAttribute('data-theme');
+        incognitoToggle.setAttribute('aria-pressed', 'false');
+        incognitoToggle.textContent = 'Incognito';
+        localStorage.setItem(THEME_KEY, 'light');
+      }
+    }
+    incognitoToggle.addEventListener('click', () => {
+      const dark = document.body.getAttribute('data-theme') !== 'dark';
+      setTheme(dark);
+    });
+
+    // Load theme from storage
+    function loadTheme() {
+      const theme = localStorage.getItem(THEME_KEY);
+      if (theme === 'dark') {
+        setTheme(true);
+      } else {
+        setTheme(false);
+      }
+    }
+
+    // Contact form submission using EmailJS
+    const contactForm = document.getElementById('contact-form');
+    const contactSuccess = document.getElementById('contact-success');
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const button = contactForm.querySelector('button');
+      button.disabled = true;
+      button.textContent = 'Sending...';
+
+      emailjs.sendForm('service_5tcz5q8', 'template_cbaaywx', contactForm)
+        .then(function() {
+          contactSuccess.style.display = 'block';
+          contactForm.reset();
+          button.disabled = false;
+          button.textContent = 'Send';
+        }, function(error) {
+          contactSuccess.style.display = 'block';
+          contactSuccess.textContent = 'Something went wrong. Please try again later.';
+          button.disabled = false;
+          button.textContent = 'Send';
+        });
+    });
+
+    // Load saved tab order
+    loadTabOrder();
+    // Load theme from storage
+    loadTheme();
+
+    // Initial activation of the home tab
+    activateTab('home', false);
+  })();
+
+  // Toolbox category switching for Extras tab
+  (() => {
+    const categoryCards = document.querySelectorAll('#extras .category-card');
+    const categoryContents = document.querySelectorAll('#extras .category-content');
+    categoryCards.forEach(card => {
+      card.addEventListener('click', function() {
+        categoryCards.forEach(c => c.classList.remove('active'));
+        categoryContents.forEach(content => content.classList.remove('active'));
+        card.classList.add('active');
+        const categoryId = card.getAttribute('data-category');
+        document.getElementById(categoryId + '-content').classList.add('active');
+      });
+    });
+    if (categoryCards.length) categoryCards[0].click();
+  })();
+
+  // Full Stack Project Tabs switching
+  (() => {
+    const fsTabs = document.querySelectorAll('.project-tab');
+    const fsPanels = document.querySelectorAll('.project-content');
+    fsTabs.forEach((tab, idx) => {
+      tab.addEventListener('click', () => {
+        fsTabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+          t.tabIndex = -1;
+        });
+        fsPanels.forEach(panel => panel.classList.remove('active'));
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        tab.tabIndex = 0;
+        const panelId = tab.getAttribute('aria-controls');
+        document.getElementById(panelId).classList.add('active');
+      });
+      tab.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          let newIdx = (idx + (e.key === 'ArrowLeft' ? -1 : 1) + fsTabs.length) % fsTabs.length;
+          fsTabs[newIdx].focus();
+        }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
