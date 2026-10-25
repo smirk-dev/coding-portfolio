@@ -1,0 +1,24 @@
+# Suryansh Mishra · Code
+
+> Coding portfolio of Suryansh Mishra, an AI engineer in Noida, India, and the co-founder and CTO of Alethman. He builds LLM agents, RAG pipelines and the systems under them.
+
+## Who he is
+
+Suryansh Mishra is an AI engineer from Noida, India. He is the co-founder and CTO of Alethman, where he built the engine that follows how news stories form and spread, and a forward deployed engineer at InboxKit. He studies computer science at UPES with a minor in AI from IIT Ropar, contributes to Rocket.Chat, and has won three national hackathons. He also paints and writes poetry.
+
+## What this site contains
+
+- [Coding portfolio](https://code.suryanshmishra.com/): a single page styled like a browser, with tabs for an introduction, an about section with skills and a contact form, AI and ML projects, full-stack projects, and extras (cloud, cybersecurity and other projects).
+- [Resume (PDF)](https://code.suryanshmishra.com/resume.pdf)
+
+## His other sites
+
+- [suryanshmishra.com](https://suryanshmishra.com/): his home, an open world where each structure leads to one of his sites
+- [About Suryansh Mishra](https://suryanshmishra.com/about/): who he is, in plain text
+- [Art](https://art.suryanshmishra.com/): art portfolio and shop
+- [Bonfire](https://bonfire.suryanshmishra.com/): his blog of poems and thoughts
+
+## Profiles
+
+- [GitHub](https://github.com/smirk-dev)
+- [LinkedIn](https://www.linkedin.com/in/connectwithsuryanshmishra/)
