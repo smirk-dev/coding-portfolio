@@ -9,7 +9,7 @@ Suryansh Mishra is an AI engineer from Noida, India. He is the co-founder and CT
 ## What this site contains
 
 - [Coding portfolio](https://code.suryanshmishra.com/): a single page styled like a browser, with tabs for an introduction, an about section with skills and a contact form, AI and ML projects, full-stack projects, and extras (cloud, cybersecurity and other projects).
-- [Resume (PDF)](https://code.suryanshmishra.com/resume.pdf)
+- [Linktree](https://linktr.ee/mishrasuryansh)
 
 ## His other sites
 
